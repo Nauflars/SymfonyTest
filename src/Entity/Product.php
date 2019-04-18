@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Entity\Image;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -30,6 +30,16 @@ class Product
      * @ORM\Column(type="text")
      */
      private $description;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $unitStoc;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"})
+     */
+    private $image;
 
 
     public function getId(): ?int
@@ -70,6 +80,30 @@ class Product
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUnitStoc(): ?int
+    {
+        return $this->unitStoc;
+    }
+
+    public function setUnitStoc(int $unitStoc): self
+    {
+        $this->unitStoc = $unitStoc;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage($image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
