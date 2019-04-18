@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Image;
 use App\Entity\Product;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+
 class ProductController extends AbstractController
 {
     /**
@@ -18,10 +19,14 @@ class ProductController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         $product = new Product();
-        $product->setName('Keyboard');
-        $product->setPrice(1999);
-        $product->setDescription('Ergonomic and stylish!');
-
+        $image = new Image();
+        $image->setAlt('test');
+        $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
+        $product->setName('aletas');
+        $product->setPrice(200);
+        $product->setDescription('aletas!');
+        $product->setUnitStoc(10);
+        $product->setImage($image);
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($product);
 
@@ -87,9 +92,9 @@ class ProductController extends AbstractController
             ->getRepository(Product::class)
             ->findAllGreaterThanPrice($minPrice);
         $respuesta='';
-       foreach ($products as $product){
-           $respuesta.='Check out this great product: '.$product->getName() . '\n';
-       }
+        foreach ($products as $product){
+            $respuesta.='Check out this great product: '.$product->getName() . '\n';
+        }
 
         return new Response($respuesta);
 
